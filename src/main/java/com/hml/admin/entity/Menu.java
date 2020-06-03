@@ -1,8 +1,12 @@
 package com.hml.admin.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -83,4 +87,13 @@ public class Menu implements Serializable {
     private Integer delFlag;
 
 
+    // 非数据库字段
+    @TableField(exist = false)
+    private String parentName;
+    // 非数据库字段
+    @TableField(exist = false)
+    private Integer level;
+    // 非数据库字段
+    @TableField(exist = false)
+    private List<Menu> children;
 }
