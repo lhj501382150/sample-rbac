@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hml.sys.mapper.UserMapper">
+	<select id="selectUserRoles" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT T1.* FROM SYS_ROLE T1
+		LEFT JOIN SYS_USER_ROLE T2 ON T1.ID = T2.ROLE_ID
+		WHERE T2.ID = #{id}
+	</select>
+</mapper>
