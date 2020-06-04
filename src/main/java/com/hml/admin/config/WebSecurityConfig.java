@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -38,7 +39,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
+    	/*
+    	 * spring security session  管理 
+    	 * http.sessionManagement()
+    	.sessionCreationPolicy(
+    			SessionCreationPolicy.STATELESS
+    	);*
+    	*
+    	**/
+    	// 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
         http.cors().and().csrf().disable()
     		.authorizeRequests()
     		// 跨域预检请求

@@ -15,4 +15,6 @@ import com.hml.admin.entity.Menu;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 	List<Menu> selectMenuByUser(String userName);
+	
+	List<Menu> findRoleMenus(Long roleId);
 }

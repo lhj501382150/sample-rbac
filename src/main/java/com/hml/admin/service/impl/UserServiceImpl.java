@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hml.admin.constant.SysConstants;
 import com.hml.admin.entity.Menu;
 import com.hml.admin.entity.User;
 import com.hml.admin.mapper.MenuMapper;
@@ -51,7 +52,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	@Override
 	public Set<String> findPermissions(String userName) {
 		 Set<String> perms = new HashSet<>();
-		 List<Menu> list = menuMapper.selectMenuByUser(userName);
+		 List<Menu> list = null ;
+		 if(SysConstants.ADMIN.equals(userName)){
+			 list = menuMapper.selectList(null);
+		 }else{
+			 list = menuMapper.selectMenuByUser(userName);
+		 }
 		 for(Menu menu:list){
 			 String perm = menu.getPerms();
 			 if(!StringUtils.isBlank(perm)){

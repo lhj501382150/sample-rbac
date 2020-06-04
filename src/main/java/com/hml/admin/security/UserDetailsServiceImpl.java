@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getById(username);
+        User user = userService.findByName(username);
         if (user == null) {
             throw new UsernameNotFoundException("该用户不存在");
         }
