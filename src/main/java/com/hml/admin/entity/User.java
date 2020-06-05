@@ -1,5 +1,6 @@
 package com.hml.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -92,5 +93,10 @@ public class User implements Serializable {
      */
     private Integer delFlag;
 
+    @TableField(exist=false)
+    private String deptName;
+    
+    @TableField(exist=false)
+    private String roleName;
 
 }

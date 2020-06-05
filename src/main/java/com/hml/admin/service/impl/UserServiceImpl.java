@@ -76,7 +76,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 		
-		return MybatisPlusPageHelper.findPage(pageRequest, userMapper);
+		return MybatisPlusPageHelper.findPage(pageRequest, userMapper,"findPage");
+//		return MybatisPlusPageHelper.findPage(pageRequest, userMapper);
 	}
 
 	@Override

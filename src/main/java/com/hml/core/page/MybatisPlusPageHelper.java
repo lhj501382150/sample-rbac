@@ -84,6 +84,7 @@ public class MybatisPlusPageHelper {
 			String key = entry.getKey().toString();
 			if(StringUtils.isBlank(key)) continue;
 			Object val = entry.getValue();
+			if(val==null || StringUtils.isBlank(val.toString())) continue;
 			if(key.contains("@")){
 				String[] paras = key.split("@");
 				String temp = paras[1].toString().toUpperCase();

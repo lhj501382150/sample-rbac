@@ -62,7 +62,7 @@ public class ReflectionUtils {
 						if(arg == null) {
 							arg = "";
 						}
-						if(!parameterTypes[i].equals(args[i].getClass())) {
+						if(!parameterTypes[i].isAssignableFrom(args[i].getClass())) {
 							isSameMethod = false;
 						}
 					}
