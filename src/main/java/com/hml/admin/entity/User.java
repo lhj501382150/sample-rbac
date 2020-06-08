@@ -1,9 +1,14 @@
 package com.hml.admin.entity;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -97,6 +102,9 @@ public class User implements Serializable {
     private String deptName;
     
     @TableField(exist=false)
-    private String roleName;
+    private String roleNames;
+    
+    @TableField(exist=false)
+    private List<UserRole> userRoles = new ArrayList<>();
 
 }

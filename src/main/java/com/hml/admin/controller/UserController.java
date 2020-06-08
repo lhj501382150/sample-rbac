@@ -1,8 +1,6 @@
 package com.hml.admin.controller;
 
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,19 +59,17 @@ public class UserController extends BaseController {
 				}
 			}
 		}
-		return HttpResult.ok(userService.save(record));
+		return HttpResult.ok(userService.saveOrUpdate(record));
 	}
 
 	@PreAuthorize("hasAuthority('sys:user:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody List<User> records) {
-		for(User record:records) {
-			User sysUser = userService.getById(record.getId());
-			if(sysUser != null && SysConstants.ADMIN.equalsIgnoreCase(sysUser.getName())) {
-				return HttpResult.error("超级管理员不允许删除!");
-			}
+	public HttpResult delete(@RequestBody User record) {
+		User sysUser = userService.getById(record.getId());
+		if(sysUser != null && SysConstants.ADMIN.equalsIgnoreCase(sysUser.getName())) {
+			return HttpResult.error("超级管理员不允许删除!");
 		}
-		return HttpResult.ok(userService.delete(records));
+		return HttpResult.ok(userService.removeById(record.getId()));
 	}
 	
 	@PreAuthorize("hasAuthority('sys:user:view')")

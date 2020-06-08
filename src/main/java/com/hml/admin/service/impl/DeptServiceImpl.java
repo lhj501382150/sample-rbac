@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hml.admin.entity.Dept;
 import com.hml.admin.mapper.DeptMapper;
 import com.hml.admin.service.IDeptService;
+import com.hml.core.page.MybatisPlusPageHelper;
+import com.hml.core.page.PageRequest;
+import com.hml.utils.StringUtils;
 
 /**
  * <p>
@@ -28,13 +32,27 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 	
 	@Override
 	@Transactional
-	public List<Dept> findTree() {
+	public List<Dept> findTree(PageRequest pageReuest) {
+		boolean flag = false;
+		if(pageReuest.getParams()!=null){
+			Object obj = pageReuest.getParams().get("name");
+			flag = obj !=null &&  !StringUtils.isBlank(obj.toString());
+		}
 		List<Dept> sysDepts = new ArrayList<>();
 		List<Dept> depts = deptMapper.selectList(null);
-		for (Dept dept : depts) {
-			if (dept.getParentId() == null || dept.getParentId() == 0) {
+		if(flag){
+			QueryWrapper<Dept> qw = (QueryWrapper<Dept>) MybatisPlusPageHelper.getQueryWrapper(pageReuest);
+			List<Dept> parent = deptMapper.selectList(qw);
+			for(Dept dept:parent){
 				dept.setLevel(0);
 				sysDepts.add(dept);
+			}
+		}else{
+			for (Dept dept : depts) {
+				if (dept.getParentId() == null || dept.getParentId() == 0) {
+					dept.setLevel(0);
+					sysDepts.add(dept);
+				}
 			}
 		}
 		findChildren(sysDepts, depts);
@@ -47,7 +65,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 			List<Dept> children = new ArrayList<>();
 			for (Dept dept : depts) {
 				if (sysDept.getId() != null && sysDept.getId().equals(dept.getParentId())) {
-					dept.setParentName(dept.getName());
+					dept.setParentName(sysDept.getName());
 					dept.setLevel(sysDept.getLevel() + 1);
 					children.add(dept);
 				}
@@ -55,5 +73,14 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 			sysDept.setChildren(children);
 			findChildren(children, depts);
 		}
+	}
+	
+	@Override
+	@Transactional
+	public Integer delete(List<Dept> records) {
+		 for(Dept dept: records){
+			 int ret = deptMapper.deleteById(dept.getId());
+		 }
+		return 1;
 	}
 }

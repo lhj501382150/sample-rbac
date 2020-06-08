@@ -68,7 +68,7 @@ public class MybatisPlusPageHelper {
 		return Integer.parseInt(String.valueOf(val));
 	}
 	
-	private static Page<?> getPage(PageRequest pageRequest){
+	public static Page<?> getPage(PageRequest pageRequest){
 		int pageNum = pageRequest.getPageNum();
 		int pageSize = pageRequest.getPageSize();
 		
@@ -76,8 +76,8 @@ public class MybatisPlusPageHelper {
 		return page;
 	}
 	
-	private static QueryWrapper<?> getQueryWrapper(PageRequest pageRequest){
-		QueryWrapper<Object> qw = new QueryWrapper<>();
+	public static QueryWrapper<?> getQueryWrapper(PageRequest pageRequest){
+		QueryWrapper<?> qw = new QueryWrapper<>();
 		Map<String, Object> params = pageRequest.getParams();
 		for(Entry entry:params.entrySet()){
 			if (entry == null) continue;

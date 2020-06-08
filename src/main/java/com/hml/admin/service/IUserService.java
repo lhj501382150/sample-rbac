@@ -2,11 +2,11 @@ package com.hml.admin.service;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hml.admin.entity.User;
+import com.hml.admin.entity.UserRole;
 import com.hml.core.page.PageRequest;
 import com.hml.core.page.PageResult;
 
@@ -39,5 +39,5 @@ public interface IUserService extends IService<User> {
 	
 	Object delete(List<User> list);
 	
-	List<Map<String,Object>> findUserRoles(Long userId);
+	List<UserRole> findUserRoles(Long userId);
 }

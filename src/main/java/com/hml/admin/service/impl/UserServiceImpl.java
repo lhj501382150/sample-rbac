@@ -3,8 +3,8 @@ package com.hml.admin.service.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hml.admin.constant.SysConstants;
 import com.hml.admin.entity.Menu;
+import com.hml.admin.entity.Role;
 import com.hml.admin.entity.User;
+import com.hml.admin.entity.UserRole;
 import com.hml.admin.mapper.MenuMapper;
+import com.hml.admin.mapper.RoleMapper;
 import com.hml.admin.mapper.UserMapper;
+import com.hml.admin.mapper.UserRoleMapper;
 import com.hml.admin.service.IUserService;
 import com.hml.core.page.MybatisPlusPageHelper;
 import com.hml.core.page.PageRequest;
@@ -40,6 +44,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	
 	@Autowired
 	private MenuMapper menuMapper;
+	
+	@Autowired
+	private UserRoleMapper userRoleMapper;
+	
+	@Autowired
+	private RoleMapper roleMapper;
+	
+	 @Override
+	 @Transactional
+	public boolean saveOrUpdate(User user) {
+		 boolean flag = true;
+		 flag = super.saveOrUpdate(user);
+//		 处理角色信息
+		 if(flag && user.getId()!=null){
+			 List<UserRole> userRoles = user.getUserRoles();
+			 QueryWrapper<UserRole> qw = new QueryWrapper<>();
+			 qw.eq("user_id",user.getId());
+			 userRoleMapper.delete(qw);
+			 for(UserRole userRole:userRoles){
+				 userRoleMapper.insert(userRole);
+			 }
+		 }
+		 return flag;
+	}
 	
 	@Override
 	public User findByName(String username) {
@@ -76,8 +104,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 		
-		return MybatisPlusPageHelper.findPage(pageRequest, userMapper,"findPage");
-//		return MybatisPlusPageHelper.findPage(pageRequest, userMapper);
+		PageResult pr =  MybatisPlusPageHelper.findPage(pageRequest, userMapper,"findPage");
+//		加载用户角色信息
+		findUserRoles(pr);
+		return pr;
+	}
+	
+	/**
+	 * 加载用户角色
+	 * @param pageResult
+	 */
+	private void findUserRoles(PageResult pageResult) {
+		List<User> content = (List<User>)pageResult.getContent();
+		for(User user:content) {
+			List<UserRole> userRoles = findUserRoles(user.getId());
+			user.setUserRoles(userRoles);
+			user.setRoleNames(getRoleNames(userRoles));
+		}
+	}
+
+	private String getRoleNames(List<UserRole> userRoles) {
+		StringBuilder sb = new StringBuilder();
+		for(Iterator<UserRole> iter=userRoles.iterator(); iter.hasNext();) {
+			UserRole userRole = iter.next();
+			Role role = roleMapper.selectById(userRole.getRoleId());
+			if(role == null) {
+				continue ;
+			}
+			sb.append(role.getRemark());
+			if(iter.hasNext()) {
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
 	}
 
 	@Override
@@ -92,8 +151,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	}
 
 	@Override
-	public List<Map<String, Object>> findUserRoles(Long userId) {
-		List<Map<String, Object>> list = userMapper.selectUserRoles(userId);
+	public List<UserRole> findUserRoles(Long userId) {
+		QueryWrapper<UserRole> qw = new QueryWrapper<>();
+		qw.eq("user_id", userId);
+		List<UserRole> list = userRoleMapper.selectList(qw);
 		return list;
 	}
 	
