@@ -32,7 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // 用户权限列表，根据用户拥有的权限标识与如 @PreAuthorize("hasAuthority('sys:menu:view')") 标注的接口对比，决定是否可以调用接口
         Set<String> permissions = userService.findPermissions(user.getName());
-        System.out.println("------------"+permissions);
         List<GrantedAuthority> grantedAuthorities = permissions.stream().map(GrantedAuthorityImpl::new).collect(Collectors.toList());
         return new JwtUserDetails(user.getName(), user.getPassword(), user.getSalt(), grantedAuthorities);
     }
