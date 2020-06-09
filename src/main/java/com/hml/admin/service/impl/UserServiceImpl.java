@@ -52,7 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	private RoleMapper roleMapper;
 	
 	 @Override
-	 @Transactional
+	 @Transactional(rollbackFor=Exception.class)
 	public boolean saveOrUpdate(User user) {
 		 boolean flag = true;
 		 flag = super.saveOrUpdate(user);

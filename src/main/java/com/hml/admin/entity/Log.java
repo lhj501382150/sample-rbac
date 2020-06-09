@@ -10,16 +10,16 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户角色
+ * 系统操作日志
  * </p>
  *
  * @author hml
- * @since 2020-06-08
+ * @since 2020-06-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_user_role")
-public class UserRole implements Serializable {
+@TableName("sys_log")
+public class Log implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -30,14 +30,34 @@ public class UserRole implements Serializable {
     private Long id;
 
     /**
-     * 用户ID
+     * 用户名
      */
-    private Long userId;
+    private String userName;
 
     /**
-     * 角色ID
+     * 用户操作
      */
-    private Long roleId;
+    private String operation;
+
+    /**
+     * 请求方法
+     */
+    private String method;
+
+    /**
+     * 请求参数
+     */
+    private String params;
+
+    /**
+     * 执行时长(毫秒)
+     */
+    private Long time;
+
+    /**
+     * IP地址
+     */
+    private String ip;
 
     /**
      * 创建人

@@ -11,7 +11,7 @@ import com.hml.core.page.PageRequest;
  * 机构管理 服务类
  * </p>
  *
- * @author lhj
+ * @author hml
  * @since 2020-06-08
  */
 public interface IDeptService extends IService<Dept> {

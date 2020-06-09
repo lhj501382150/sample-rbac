@@ -10,16 +10,16 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户角色
+ * 系统登录日志
  * </p>
  *
  * @author hml
- * @since 2020-06-08
+ * @since 2020-06-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_user_role")
-public class UserRole implements Serializable {
+@TableName("sys_login_log")
+public class LoginLog implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -30,14 +30,19 @@ public class UserRole implements Serializable {
     private Long id;
 
     /**
-     * 用户ID
+     * 用户名
      */
-    private Long userId;
+    private String userName;
 
     /**
-     * 角色ID
+     * 登录状态（online:在线，登录初始状态，方便统计在线人数；login:退出登录后将online置为login；logout:退出登录）
      */
-    private Long roleId;
+    private String status;
+
+    /**
+     * IP地址
+     */
+    private String ip;
 
     /**
      * 创建人
