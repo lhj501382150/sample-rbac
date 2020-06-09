@@ -46,7 +46,7 @@ public class RoleController extends BaseController {
 		if((record.getId() == null || record.getId() ==0) && !roleService.findByName(record.getName()).isEmpty()) {
 			return HttpResult.error("角色名已存在!");
 		}
-		return HttpResult.ok(roleService.save(record));
+		return HttpResult.ok(roleService.saveOrUpdate(record));
 	}
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")

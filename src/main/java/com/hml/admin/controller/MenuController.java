@@ -31,7 +31,7 @@ public class MenuController extends BaseController {
 	@PreAuthorize("hasAuthority('sys:menu:add') AND hasAuthority('sys:menu:edit')")
 	@PostMapping(value="/save")
 	public HttpResult save(@RequestBody Menu record) {
-		return HttpResult.ok(menuService.save(record));
+		return HttpResult.ok(menuService.saveOrUpdate(record));
 	}
 
 	@PreAuthorize("hasAuthority('sys:menu:delete')")

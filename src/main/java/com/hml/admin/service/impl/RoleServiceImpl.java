@@ -53,7 +53,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 		}
 		Long roleId = records.get(0).getRoleId(); 
 		QueryWrapper<RoleMenu> qw = new QueryWrapper<>();
-		qw.eq("roleid", roleId);
+		qw.eq("role_id", roleId);
 		roleMenuMapper.delete(qw);
 		for(RoleMenu rm : records){
 			roleMenuMapper.insert(rm);
