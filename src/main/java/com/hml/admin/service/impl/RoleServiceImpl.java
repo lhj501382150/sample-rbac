@@ -1,5 +1,6 @@
 package com.hml.admin.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +76,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 		return MybatisPlusPageHelper.findPage(pageRequest, roleMapper);
 	}
 
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public Object delete(List<Role> records) {
+		List<Long> ids = new ArrayList<Long>();
+		for(Role role:records){
+			ids.add(role.getId());
+		}
+		return roleMapper.deleteBatchIds(ids);
+	}
 }

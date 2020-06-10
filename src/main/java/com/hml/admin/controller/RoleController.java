@@ -51,12 +51,14 @@ public class RoleController extends BaseController {
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody Role record) {
-		Role role = roleService.getById(record.getId());
-		if(role.getName().equals(SysConstants.ADMIN)){
-			return HttpResult.error("超级管理员不能删除!");
+	public HttpResult delete(@RequestBody List<Role> records) {
+		for(Role record : records){
+			Role role = roleService.getById(record.getId());
+			if(role.getName().equals(SysConstants.ADMIN)){
+				return HttpResult.error("超级管理员不能删除!");
+			}
 		}
-		return HttpResult.ok(roleService.removeById(record.getId()));
+		return HttpResult.ok(roleService.delete(records));
 	}
 
 	@PreAuthorize("hasAuthority('sys:role:view')")

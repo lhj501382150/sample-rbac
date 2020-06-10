@@ -33,6 +33,7 @@ public class LogController extends BaseController {
 	@PreAuthorize("hasAuthority('sys:log:view')")
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+		pageRequest.getParams().put("id@desc", "A");
 		return HttpResult.ok(logService.findPage(pageRequest));
 	}
 	

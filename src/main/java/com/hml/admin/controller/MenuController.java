@@ -1,6 +1,8 @@
 package com.hml.admin.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +38,8 @@ public class MenuController extends BaseController {
 
 	@PreAuthorize("hasAuthority('sys:menu:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody Menu record) {
-		return HttpResult.ok(menuService.removeById(record.getId()));
+	public HttpResult delete(@RequestBody List<Menu> records) {
+		return HttpResult.ok(menuService.delete(records));
 	}
 
 	@PreAuthorize("hasAuthority('sys:menu:view')")

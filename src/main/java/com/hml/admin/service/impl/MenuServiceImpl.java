@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hml.admin.constant.SysConstants;
@@ -25,6 +26,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	
 	@Autowired
 	private MenuMapper menuMapper;
+	
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public Object delete(List<Menu> records) {
+		List<Long> ids = new ArrayList<>();
+		for(Menu menu:records){
+			ids.add(menu.getId());
+		}
+		return menuMapper.deleteBatchIds(ids);
+	}
 	
 	@Override
 	public List<Menu> findTree(String userName, int menuType) {

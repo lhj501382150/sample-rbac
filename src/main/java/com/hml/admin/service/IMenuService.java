@@ -28,4 +28,6 @@ public interface IMenuService extends IService<Menu> {
 	 * @return
 	 */
 	List<Menu> findByUser(String userName);
+	
+	Object delete(List<Menu> records);
 }

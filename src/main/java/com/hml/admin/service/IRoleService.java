@@ -39,4 +39,6 @@ public interface IRoleService extends IService<Role> {
 	 * @return
 	 */
 	List<Role> findByName(String name);
+	
+	Object delete(List<Role> records);
 }

@@ -40,4 +40,5 @@ public interface IUserService extends IService<User> {
 	Object delete(List<User> list);
 	
 	List<UserRole> findUserRoles(Long userId);
+	
 }

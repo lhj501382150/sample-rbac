@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	);*
     	*
     	**/
+    	 http.headers().frameOptions().disable();
     	// 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
         http.cors().and().csrf().disable()
     		.authorizeRequests()
