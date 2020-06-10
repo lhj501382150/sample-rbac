@@ -35,6 +35,8 @@ public class DictController extends BaseController {
 	@PostMapping(value="/save")
 	public HttpResult save(@RequestBody Dict record) {
 		return HttpResult.ok(dictService.saveOrUpdate(record));
+		
+//		return HttpResult.ok(dictService.updateById(record));
 	}
 
 	@PreAuthorize("hasAuthority('sys:dict:delete')")
